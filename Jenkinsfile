@@ -5,7 +5,7 @@ pipeline {
         jdk 'myjava'
         maven 'maven'
     }
-        stages {
+    stages {
         stage('Compile') {
             steps {
                 script{
@@ -15,7 +15,7 @@ pipeline {
             }
         }
         stage('UnitTest') { 
-            }
+            
             steps {
                 script{
                     echo "Running the test cases"
@@ -32,4 +32,5 @@ pipeline {
             }
         }
     }
+    
 }
