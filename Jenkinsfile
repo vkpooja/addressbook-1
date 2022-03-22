@@ -1,5 +1,5 @@
 pipeline {
-    agent any
+    agent none
 
     tools{
         jdk 'myjava'
@@ -7,6 +7,7 @@ pipeline {
     }
     stages {
         stage('Compile') {
+            agent any
             steps {
                 script{
                     echo "Compiling the code"
@@ -15,7 +16,7 @@ pipeline {
             }
         }
         stage('UnitTest') { 
-            
+            agent any
             steps {
                 script{
                     echo "Running the test cases"
@@ -29,6 +30,7 @@ pipeline {
             }
         }
         stage('Package') {
+            agent {label 'slave'}
             steps {
                 script{
                     echo "Packaging the code"
