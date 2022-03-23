@@ -36,7 +36,7 @@ pipeline {
             agent {label 'slave'}
             steps {
                 script{
-                    echo "Packaging the code"
+                    echo "Packaging the code "
                     sh 'mvn package'
                 }
             }
