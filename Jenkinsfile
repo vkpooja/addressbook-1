@@ -5,6 +5,9 @@ pipeline {
         jdk 'myjava'
         maven 'maven'
     }
+    environment{
+        test_server_IP='ec2-user@172.31.44.220'
+    }
     stages {
         stage('Compile') {
             agent any
@@ -21,9 +24,8 @@ pipeline {
                 script{
                     sshagent(['test_server']) {
                     echo "Running the test cases"
-                    echo "line for pulling"
-                    sh "scp -o StrictHostKeyChecking=no server-script.sh ec2-user@172.31.44.220:/home/ec2-user"
-                    sh "ssh -o StrictHostKeyChecking=no ec2-user@172.31.44.220 'bash ~/server-script.sh'"
+                    sh "scp -o StrictHostKeyChecking=no server-script.sh ${test_server_IP}:/home/ec2-user"
+                    sh "ssh -o StrictHostKeyChecking=no ${test_server_IP} 'bash ~/server-script.sh'"
                     }
                 }
             }
