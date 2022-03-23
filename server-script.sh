@@ -5,7 +5,9 @@ if [ -d "addressbook-1" ]
 then 
  echo "repository is already present"
  cd /home/ec2-user/addressbook-1
+ echo"pulling repository"
  git pull origin b1
+ 
 else
  echo "cloning the repository"
  git clone https://github.com/vkpooja/addressbook-1.git
