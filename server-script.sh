@@ -4,3 +4,4 @@ sudo yum install maven -y
 
 git clone https://github.com/vkpooja/addressbook-1.git
 cd /home/ec2-user/addressbook-1
+mvn test
