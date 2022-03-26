@@ -1,4 +1,5 @@
-from tomcat:8.5.72-jdk17-openjdk-buster
-add target/addressbook.war /usr/local/tomcat
+from openjdk
+run yum install tomcat -y
+add /var/lib/jenkins/workspace/package/target/addressbook.war /usr/java/openjdk-8
 EXPOSE 8080
-CMD ["catalina.sh", "run"]
+CMD ["jshell"]
