@@ -16,4 +16,5 @@ fi
 mvn package
 
 sudo yum install docker -y
+sudo systemctl start docker 
 sudo git checkout b1
