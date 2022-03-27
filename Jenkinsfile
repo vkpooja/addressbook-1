@@ -13,7 +13,7 @@ pipeline {
             agent any
             steps {
                 script{
-                    sshagent(['deploy-server']) {
+                    sshagent(['DOCKER_SERVER_KEY']) {
                     withCredentials([usernamePassword(credentialsId: 'dockerhub', passwordVariable: 'password', usernameVariable: 'username')]) {
                     echo "deploy the image"
                     sh "ssh -o StrictHostKeyChecking=no ${DEPLOY_SERVER_IP} sudo yum install docker -y"
