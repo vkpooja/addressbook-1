@@ -42,7 +42,7 @@ pipeline {
                     echo "Running the test cases"
                     sh "scp -o StrictHostKeyChecking=no server-script.sh ${BUILD_SERVER_IP}:/home/ec2-user"
                     sh "ssh -o StrictHostKeyChecking=no ${BUILD_SERVER_IP} 'bash ~/server-script.sh'"
-                    sh "ssh ${BUILD_SERVER_IP} sudo docker build -t vkpooja/myrepo:$BUILD_NUMBER /home/ec2-user"
+                    sh "ssh ${BUILD_SERVER_IP} sudo docker build -t vkpooja/myrepo:$BUILD_NUMBER /home/ec2-user/addressbook-1"
                     sh "ssh ${BUILD_SERVER_IP} sudo docker login -u $username -p $password"
                     sh "ssh ${BUILD_SERVER_IP} sudo docker push vkpooja/myrepo:$BUILD_NUMBER"
                     echo "Packaging the code "
