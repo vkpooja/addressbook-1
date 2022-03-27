@@ -13,4 +13,6 @@ else
  git clone https://github.com/vkpooja/addressbook-1.git
  cd /home/ec2-user/addressbook-1
 fi
-mvn test
+mvn package
+
+sudo yum install docker -y

@@ -6,7 +6,8 @@ pipeline {
         maven 'maven'
     }
     environment{
-        test_server_IP='ec2-user@172.31.44.220'
+        BUILD_SERVER_IP='ec2-user@172.31.44.220'
+        DEPLOY_SERVER_IP='ec2-user@172.31.47.130'
     }
     stages {
         stage('Compile') {
@@ -22,11 +23,8 @@ pipeline {
             agent any
             steps {
                 script{
-                    sshagent(['test_server']) {
                     echo "Running the test cases"
-                    sh "scp -o StrictHostKeyChecking=no server-script.sh ${test_server_IP}:/home/ec2-user"
-                    sh "ssh -o StrictHostKeyChecking=no ${test_server_IP} 'bash ~/server-script.sh'"
-                    }
+                    sh 'mvn test'
                 }
             }
             post{
@@ -35,12 +33,20 @@ pipeline {
                 }
             }
         }
-        stage('Package') {
-            agent {label 'slave'}
+        stage('PACKAGE+BUILD THE DOCKERFILE AND PUSH TO DOKCER HUB') {
+            agent any
             steps {
                 script{
+                    sshagent(['BUILD_SERVER_KEY']) {
+                    withCredentials([usernamePassword(credentialsId: 'dockerhub', passwordVariable: 'password', usernameVariable: 'username')]) {
+                    echo "Running the test cases"
+                    sh "scp -o StrictHostKeyChecking=no server-script.sh ${BUILD_SERVER_IP}:/home/ec2-user"
+                    sh "ssh -o StrictHostKeyChecking=no ${BUILD_SERVER_IP} 'bash ~/server-script.sh'"
+                    sh "ssh ${BUILD_SERVER_IP} sudo docker build -t vkpooja/myrepo:$BUILD_NUMBER /home/ec2-user"
+                    sh "ssh ${BUILD_SERVER_IP} sudo docker login -u $username -p $password"
+                    sh "ssh ${BUILD_SERVER_IP} sudo docker push vkpooja/myrepo:$BUILD_NUMBER"
                     echo "Packaging the code "
-                    sh 'mvn package'
+                    }}
                 }
             }
         }
