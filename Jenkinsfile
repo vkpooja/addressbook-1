@@ -6,14 +6,14 @@ pipeline {
         maven 'maven'
     }
     environment{
-        DEPLOY_SERVER_IP='ec2-user@172.31.47.130'
+        DEPLOY_SERVER_IP='ec2-user@3.108.185.155'
     }
     stages {
         stage('DEPLOY THE APP FROM DOCKERHUB IMAGE') {
             agent any
             steps {
                 script{
-                    sshagent(['DEPLOY_SERVER_KEY']) {
+                    sshagent(['deploy-server']) {
                     withCredentials([usernamePassword(credentialsId: 'dockerhub', passwordVariable: 'password', usernameVariable: 'username')]) {
                     echo "deploy the image"
                     sh "ssh -o StrictHostKeyChecking=no ${DEPLOY_SERVER_IP} sudo yum install docker -y"
